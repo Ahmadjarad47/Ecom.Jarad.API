@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecom.Jarad.API", "Ecom.Jarad.API\Ecom.Jarad.API.csproj", "{14834102-84D6-4135-8F71-A623B3C8DA4B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SRC", "SRC", "{05DD067B-3A82-4F52-8200-C2B3F1F576CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecom.Jarad.Infrastructure", "Ecom.Jarad.Infrastructure\Ecom.Jarad.Infrastructure.csproj", "{14BEC851-6401-4776-9E36-12ADFE2E770A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecom.Jarad.Core", "Ecom.Jarad.Core\Ecom.Jarad.Core.csproj", "{25475019-08C4-4614-A67E-5EEC1125A431}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14834102-84D6-4135-8F71-A623B3C8DA4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14834102-84D6-4135-8F71-A623B3C8DA4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14834102-84D6-4135-8F71-A623B3C8DA4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14834102-84D6-4135-8F71-A623B3C8DA4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14BEC851-6401-4776-9E36-12ADFE2E770A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14BEC851-6401-4776-9E36-12ADFE2E770A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14BEC851-6401-4776-9E36-12ADFE2E770A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14BEC851-6401-4776-9E36-12ADFE2E770A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25475019-08C4-4614-A67E-5EEC1125A431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25475019-08C4-4614-A67E-5EEC1125A431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25475019-08C4-4614-A67E-5EEC1125A431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25475019-08C4-4614-A67E-5EEC1125A431}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{14834102-84D6-4135-8F71-A623B3C8DA4B} = {05DD067B-3A82-4F52-8200-C2B3F1F576CF}
+		{14BEC851-6401-4776-9E36-12ADFE2E770A} = {05DD067B-3A82-4F52-8200-C2B3F1F576CF}
+		{25475019-08C4-4614-A67E-5EEC1125A431} = {05DD067B-3A82-4F52-8200-C2B3F1F576CF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8AF13DC6-5B6C-4A21-AC38-644FDF116180}
+	EndGlobalSection
+EndGlobal
