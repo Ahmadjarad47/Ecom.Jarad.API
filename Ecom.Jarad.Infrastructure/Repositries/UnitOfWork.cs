@@ -19,6 +19,7 @@ namespace Ecom.Jarad.Infrastructure.Repositries
 
         public ICarousel Carousel { get; }
 
+        public ICategory Category { get; }
 
         public UnitOfWork(ApplicationDbContext context, IFileProvider fileProvider, IMapper mapper)
         {
@@ -26,6 +27,7 @@ namespace Ecom.Jarad.Infrastructure.Repositries
             this.context = context;
             this.fileProvider = fileProvider;
             this.mapper = mapper;
+            Category = new CategoryRepositry(context, fileProvider);
         }
     }
 }

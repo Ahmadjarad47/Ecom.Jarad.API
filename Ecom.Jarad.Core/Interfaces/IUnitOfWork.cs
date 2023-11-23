@@ -9,5 +9,6 @@ namespace Ecom.Jarad.Core.Interfaces
     public interface IUnitOfWork
     {
         public ICarousel Carousel { get; }
+        public ICategory Category { get; }
     }
 }

@@ -22,6 +22,10 @@ namespace Ecom.Jarad.Infrastructure.Data
 
         public virtual DbSet<Carousel> Carousels { get; set; }
 
+
+        public virtual DbSet<Category> category { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
