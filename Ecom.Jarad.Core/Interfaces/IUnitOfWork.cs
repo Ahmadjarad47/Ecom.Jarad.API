@@ -10,5 +10,6 @@ namespace Ecom.Jarad.Core.Interfaces
     {
         public ICarousel Carousel { get; }
         public ICategory Category { get; }
+        public ISubCategory SubCategory { get; }
     }
 }

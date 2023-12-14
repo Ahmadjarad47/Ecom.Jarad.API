@@ -25,6 +25,7 @@ namespace Ecom.Jarad.Infrastructure.Data
 
         public virtual DbSet<Category> category { get; set; }
 
+        public virtual DbSet<SubCategory> SubCategory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -12,8 +12,8 @@ namespace Ecom.Jarad.Core.DTOS
      string Description,
         [Required]
      string LinkProduct,
-        [Required]
-     IFormFile  Image
+
+     IFormFile Image
 
     );
 

@@ -4,6 +4,7 @@ using Ecom.Jarad.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecom.Jarad.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231126145522_SubCategory")]
+    partial class SubCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,6 +179,9 @@ namespace Ecom.Jarad.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
@@ -186,6 +192,8 @@ namespace Ecom.Jarad.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("category");
                 });
@@ -201,15 +209,10 @@ namespace Ecom.Jarad.Infrastructure.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CountItems")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("SubCategory");
                 });
@@ -356,15 +359,11 @@ namespace Ecom.Jarad.Infrastructure.Data.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("Ecom.Jarad.Core.Entities.SubCategory", b =>
+            modelBuilder.Entity("Ecom.Jarad.Core.Entities.Category", b =>
                 {
-                    b.HasOne("Ecom.Jarad.Core.Entities.Category", "Categories")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Categories");
+                    b.HasOne("Ecom.Jarad.Core.Entities.SubCategory", null)
+                        .WithMany("Categories")
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -421,6 +420,11 @@ namespace Ecom.Jarad.Infrastructure.Data.Migrations
             modelBuilder.Entity("Ecom.Jarad.Core.Entities.AppUsers", b =>
                 {
                     b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("Ecom.Jarad.Core.Entities.SubCategory", b =>
+                {
+                    b.Navigation("Categories");
                 });
 #pragma warning restore 612, 618
         }
