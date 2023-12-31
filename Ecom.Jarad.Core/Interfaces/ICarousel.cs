@@ -12,6 +12,6 @@ namespace Ecom.Jarad.Core.Interfaces
     {
         Task<bool> AddAsync(CarouselDTO item);
         Task<bool> UpdateAsync(int id, CarouselDTO item);
-        Task<bool> DeleteImage(int id);
+        Task<bool> DeleteAsync(int id);
     }
 }

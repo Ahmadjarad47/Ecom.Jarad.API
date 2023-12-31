@@ -1,4 +1,5 @@
 ﻿using Ecom.Jarad.Core.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ecom.Jarad.Core.Interfaces
 {
-    public interface IGenericRepositry<T>where T : BaseEntity<int>
+    public interface IGenericRepositry<T> where T : BaseEntity<int>
     {
         Task<IReadOnlyList<T>> GetAllAsync();
         IEnumerable<T> GetAll();
@@ -18,6 +19,7 @@ namespace Ecom.Jarad.Core.Interfaces
         Task AddAsync(T entity);
         Task UpdateAsync(int id, T entity);
         Task DeleteAsync(int id);
+
         Task<int> CountAsync();
     }
 }

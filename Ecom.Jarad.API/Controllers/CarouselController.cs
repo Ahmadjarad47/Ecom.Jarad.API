@@ -103,7 +103,8 @@ namespace Ecom.Jarad.API.Controllers
                     return BadRequest(new BaseResponse(400));
                 }
 
-                bool result = await unit.Carousel.DeleteImage(id);
+                bool result = await unit.Carousel.DeleteAsync(id);
+
 
                 if (result)
                 {

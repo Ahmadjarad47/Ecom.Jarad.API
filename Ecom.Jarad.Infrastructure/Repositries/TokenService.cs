@@ -29,12 +29,16 @@ namespace Ecom.Jarad.Infrastructure.Repositries
         {
              new Claim(ClaimTypes.Email,user.Email),
              new Claim(ClaimTypes.Name,user.UserName),
-             
+
          });
             string? secret = "ve...@!.#ryv.][erysecret...@!.#2.][pws@]";
+
             byte[]? key = Encoding.ASCII.GetBytes(secret);
             var date = DateTime.Now;
-            SigningCredentials credentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
+
+            SigningCredentials credentials = new(new SymmetricSecurityKey(key),
+
+                SecurityAlgorithms.HmacSha256);
             SecurityTokenDescriptor tokenDescriptor = new()
             {
                 Subject = identity,

@@ -1,6 +1,7 @@
 ﻿using Ecom.Jarad.Core.DTOS;
 using Ecom.Jarad.Core.Entities;
 using Ecom.Jarad.Core.Interfaces;
+using Ecom.Jarad.Core.Services;
 using Ecom.Jarad.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -16,31 +17,19 @@ namespace Ecom.Jarad.Infrastructure.Repositries
     {
         private readonly ApplicationDbContext context;
         private readonly IFileProvider provider;
+        private readonly SaveImage saveImage;
 
-        public CategoryRepositry(ApplicationDbContext context, IFileProvider provider) : base(context)
+        public CategoryRepositry(ApplicationDbContext context, IFileProvider provider, SaveImage saveImage) : base(context)
         {
             this.context = context;
             this.provider = provider;
+            this.saveImage = saveImage;
         }
 
         public async Task<bool> AddAsync(CategoryDTO categoryDTO)
         {
-            string defultName = DateTime.Now.ToFileTime().ToString() + categoryDTO.Image.FileName;
-            string ImageName = defultName.Replace(' ', '_');
-            if (!Directory.Exists("wwwroot" + "/images/category"))
-            {
-                Directory.CreateDirectory("wwwroot" + "/images/category");
-            }
-            string src = $"/images/category/{ImageName}";
-
-            IFileInfo info = provider.GetFileInfo(src);
-
-            string root = info.PhysicalPath;
-
-            using (FileStream stream = new(root, FileMode.Create))
-            {
-                await categoryDTO.Image.CopyToAsync(stream);
-            }
+            string src = await saveImage.AddImage(categoryDTO.Image, "category") ?? "return-Null";
+            if (src == "return-Null") { return false; }
             Category category = new Category()
             {
                 Name = categoryDTO.Name,
@@ -73,27 +62,9 @@ namespace Ecom.Jarad.Infrastructure.Repositries
 
             if (categoryDTO.Image is not null)
             {
-                string defultName = DateTime.Now.ToFileTime().ToString() + categoryDTO.Image.FileName;
-                string ImageName = defultName.Replace(' ', '_');
-                if (!Directory.Exists("wwwroot" + "/images/category"))
-                {
-                    Directory.CreateDirectory("wwwroot" + "/images/category");
-                }
-                src = $"/images/category/{ImageName}";
-
-                IFileInfo info = provider.GetFileInfo(src);
-
-                string root = info.PhysicalPath;
-
-                using (FileStream stream = new(root, FileMode.Create))
-                {
-                    await categoryDTO.Image.CopyToAsync(stream);
-                }
-                IFileInfo pichinfo = provider.GetFileInfo(category.Image);
-
-                string rootpath = pichinfo.PhysicalPath;
-
-                System.IO.File.Delete(rootpath);
+                src = await saveImage.AddImage(categoryDTO.Image, "category") ?? "return-Null";
+                if (src == "return-Null") { return false; }
+                saveImage.DeleteImage(category.Image);
 
                 category = new Category()
                 {

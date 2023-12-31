@@ -27,6 +27,7 @@
     <Folder Include="wwwroot\assest\" />
     <Folder Include="wwwroot\assest\" />
     <Folder Include="wwwroot\images\carousel\" />
+    <Folder Include="wwwroot\images\category\" />
   </ItemGroup>
 
   <ItemGroup>

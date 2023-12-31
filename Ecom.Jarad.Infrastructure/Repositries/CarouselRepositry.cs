@@ -2,6 +2,7 @@
 using Ecom.Jarad.Core.DTOS;
 using Ecom.Jarad.Core.Entities;
 using Ecom.Jarad.Core.Interfaces;
+using Ecom.Jarad.Core.Services;
 using Ecom.Jarad.Infrastructure.Data;
 using Microsoft.Extensions.FileProviders;
 using static System.Net.Mime.MediaTypeNames;
@@ -13,34 +14,22 @@ namespace Ecom.Jarad.Infrastructure.Repositries
         private readonly ApplicationDbContext context;
         private readonly IFileProvider fileProvider;
         private readonly IMapper mapper;
+        private readonly SaveImage saveImage;
 
-        public CarouselRepositry(ApplicationDbContext context, IFileProvider fileProvider, IMapper mapper) : base(context)
+        public CarouselRepositry(ApplicationDbContext context, IFileProvider fileProvider, IMapper mapper, SaveImage saveImage) : base(context)
         {
             this.context = context;
             this.fileProvider = fileProvider;
             this.mapper = mapper;
+            this.saveImage = saveImage;
         }
 
         public async Task<bool> AddAsync(CarouselDTO item)
         {
             if (item.Image is not null)
             {
-                string defultName = DateTime.Now.ToFileTime().ToString() + item.Image.FileName;
-                string ImageName = defultName.Replace(' ', '_');
-                if (!Directory.Exists("wwwroot" + "/images/carousel"))
-                {
-                    Directory.CreateDirectory("wwwroot" + "/images/carousel");
-                }
-                string src = $"/images/carousel/{ImageName}";
-
-                IFileInfo info = fileProvider.GetFileInfo(src);
-
-                string root = info.PhysicalPath;
-
-                using (FileStream stream = new(root, FileMode.Create))
-                {
-                    await item.Image.CopyToAsync(stream);
-                }
+                string src = await saveImage.AddImage(item.Image, "carousel") ?? "return-Null";
+                if (src == "return-Null") { return false; }
                 Carousel result = new()
                 {
                     Title = item.Title,
@@ -83,34 +72,12 @@ namespace Ecom.Jarad.Infrastructure.Repositries
                 if (item.Image is not null)
                 {
 
-                    string prodctNames = DateTime.Now.ToFileTime().ToString() + item.Image.FileName;
-
-                    string prodctName = prodctNames.Replace(' ', '_');
-
-                    if (!Directory.Exists("wwwroot" + "/images/carousel"))
-                    {
-                        Directory.CreateDirectory("wwwroot" + "/images/carousel");
-                    }
-
-                    src = "/images/carousel/" + prodctName;
-
-                    IFileInfo info = fileProvider.GetFileInfo(src);
-
-                    string root = info.PhysicalPath;
-
-                    using (FileStream stream = new(root, FileMode.Create))
-                    {
-                        await item.Image.CopyToAsync(stream);
-                    }
-
+                    src = await saveImage.AddImage(item.Image, "carousel") ?? "return-Null";
+                    if (src == "return-Null") { return false; }
                 }
                 if (!string.IsNullOrEmpty(getCurrentCarousel.Image))
                 {
-                    IFileInfo pichinfo = fileProvider.GetFileInfo(getCurrentCarousel.Image);
-
-                    string rootpath = pichinfo.PhysicalPath;
-
-                    System.IO.File.Delete(rootpath);
+                    saveImage.DeleteImage(getCurrentCarousel.Image);
                 }
                 getCurrentCarousel = new()
                 {
@@ -125,6 +92,15 @@ namespace Ecom.Jarad.Infrastructure.Repositries
                 return true;
             }
             return false;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            Carousel getCurrentCarousel = await context.Carousels.FindAsync(id);
+            saveImage.DeleteImage(getCurrentCarousel.Image);
+            this.context.Carousels.Remove(getCurrentCarousel);
+            await context.SaveChangesAsync();
+            return true;
         }
     }
 }

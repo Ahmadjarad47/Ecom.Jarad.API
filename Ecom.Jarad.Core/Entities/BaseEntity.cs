@@ -10,4 +10,5 @@ namespace Ecom.Jarad.Core.Entities
     {
         public T Id { get; set; }
     }
+
 }

@@ -26,7 +26,7 @@ namespace Ecom.Jarad.Infrastructure
             // Injection Connection String
             services.AddDbContext<ApplicationDbContext>(op =>
             {
-                op.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                op.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
                 op.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
@@ -39,6 +39,8 @@ namespace Ecom.Jarad.Infrastructure
 
             // memory cache
             services.AddMemoryCache();
+
+            services.AddScoped<SaveImage, SaveImageRepositry>();
 
             //config IUnit of work
 
@@ -67,7 +69,8 @@ namespace Ecom.Jarad.Infrastructure
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ve...@!.#ryv.][erysecret...@!.#2.][pws@]")),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.
+                    UTF8.GetBytes("ve...@ !.#ryv.][erysecret...@!.#2.][pws@]")),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ClockSkew = TimeSpan.Zero

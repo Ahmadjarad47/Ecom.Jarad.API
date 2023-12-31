@@ -21,6 +21,7 @@ namespace Ecom.Jarad.API.Controllers
         private readonly UserManager<AppUsers> _userManager;
         private readonly SignInManager<AppUsers> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
         public AccountController(ApplicationDbContext context, ITokenService tokenService, SignInManager<AppUsers> signInManager, UserManager<AppUsers> userManager, IEmailSender emailSender)
         {
             _context = context;
@@ -72,6 +73,7 @@ namespace Ecom.Jarad.API.Controllers
 
             // Create the user in DataBase
             var result = await _userManager.CreateAsync(user, RegisterDto.Password);
+
             if (result.Succeeded is false)
             {
                 return Unauthorized(new BaseResponse(401, result.Errors.ToList()[0].Description));
@@ -111,7 +113,7 @@ namespace Ecom.Jarad.API.Controllers
             return Ok(new ResponeIdentity(_tokenService.GetAndCreateToken(user), user.refreshToken));
         }
 
-      
+
         [HttpPost("refresh")]
         public async Task<ActionResult> Refresh([FromBody] ResponeIdentity tokenApiDto)
         {
@@ -127,10 +129,13 @@ namespace Ecom.Jarad.API.Controllers
             var principal = _tokenService.GetPrincipalFromRefreshToken(accessToken);
             var username = principal.Identity.Name;
 
+
             // Check the user if he sign up
             var user = await _userManager.FindByNameAsync(username);
             if (user is null || user.refreshToken != refreshToken || user.TimeRefreshToken <= DateTime.Now)
                 return BadRequest(new BaseResponse(400, "Invalid Request"));
+
+
 
             //Create Token And RefreshToken
             var newAccessToken = _tokenService.GetAndCreateToken(user);

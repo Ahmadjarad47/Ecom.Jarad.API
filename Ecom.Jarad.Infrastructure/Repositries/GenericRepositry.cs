@@ -1,7 +1,9 @@
 ﻿using Ecom.Jarad.Core.Entities;
 using Ecom.Jarad.Core.Interfaces;
 using Ecom.Jarad.Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +16,17 @@ namespace Ecom.Jarad.Infrastructure.Repositries
     public class GenericRepositry<T> : IGenericRepositry<T> where T : BaseEntity<int>
     {
         private readonly ApplicationDbContext context;
+        private readonly IFileProvider fileProvider;
 
         public GenericRepositry(ApplicationDbContext context)
         {
             this.context = context;
+        }
+
+        public GenericRepositry(ApplicationDbContext context, IFileProvider fileProvider)
+        {
+            this.context = context;
+            this.fileProvider = fileProvider;
         }
 
         public async Task AddAsync(T entity)
@@ -25,6 +34,9 @@ namespace Ecom.Jarad.Infrastructure.Repositries
             await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync();
         }
+
+
+
 
         public async Task<int> CountAsync()
         => await context.Set<T>().CountAsync();
